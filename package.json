@@ -21,6 +21,7 @@
     "url": "https://github.com/duyk16/express-typescript-boilerplate/issues"
   },
   "dependencies": {
+    "@typegoose/typegoose": "^6.2.1",
     "body-parser": "^1.19.0",
     "debug": "^4.1.1",
     "express": "^4.17.1",
