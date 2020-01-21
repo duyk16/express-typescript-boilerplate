@@ -8,7 +8,10 @@ import rootRouter from './router'
 
 const app = Express()
 
-app.use(Morgan('dev'))
+if (process.env.NODE_ENV !== 'test') {
+    app.use(Morgan('dev'))
+}
+
 app.use(BodyParser.json())
 app.use(BodyParser.urlencoded({ extended: false }))
 
