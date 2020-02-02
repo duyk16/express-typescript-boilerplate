@@ -1,28 +1,29 @@
-process.env.NODE_ENV = 'test';
+import request from 'supertest'
 
-import chai, { expect } from 'chai'
-import chaiHttp from 'chai-http'
+import { UserModel, User } from './model'
 import server from '../../server'
 
-chai.use(chaiHttp)
-
 describe('User', () => {
-    beforeEach((done) => {
-        //Before each test we empty the database in your case
-        done()
+    beforeEach(async () => {
+        let user = new UserModel({
+            name: "Duy Nguyen",
+        } as User)
+
+        await user.save()
+    })
+
+    afterEach(async () => {
+        await UserModel.deleteMany({})
     })
 
     describe('/GET ', () => {
         it('it should GET all the users', (done) => {
-            chai.request(server)
-                .get('/user')
-                .end((err, res) => {
-                    expect(res.status).to.eq(200, "Status code should be 200")
-                    expect(res.body).to.be.a('object')
-                    expect(res.body.status).to.be.eq('ok', "Response status should be ok")
-                    expect(res.body.data).to.be.a('array', "Response status should be ok")
-                    done();
-                });
-        });
-    });
-});
+            request(server).get('/user', (err, res) => {
+                expect(res.status).toBe(200)
+                expect(res.body).toMatchObject({ status: 'oke' })
+                expect(res.body.data[0]).toMatchObject({ name: "Duy Nguyen" })
+            })
+            done()
+        })
+    })
+})
