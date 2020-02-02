@@ -1,10 +1,21 @@
 import Debug from 'debug'
 import Http from 'http'
+import Dotenv from 'dotenv'
 
 import app from './api/server'
 import { AddressInfo } from 'net'
 
 const debug = Debug('dev:server');
+
+/**
+ * Load environment variable
+ */
+const config = Dotenv.config()
+
+if (config.error) {
+    console.log('Load environment variable from .env file was failed.')
+    process.exit(1)
+}
 
 /**
  * Get port from environment and store in Express.

@@ -3,12 +3,13 @@ import Morgan from 'morgan'
 import BodyParser from 'body-parser'
 import Mongoose from 'mongoose'
 
-import logger from '../config/logger'
+import logger from '../services/logger'
 import rootRouter from './router'
+import { errorHandle, notfoundHandle } from './middlerwares/exception'
 
 const app = Express()
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV === 'development') {
     app.use(Morgan('dev'))
 }
 
@@ -17,16 +18,12 @@ app.use(BodyParser.urlencoded({ extended: false }))
 
 app.use(rootRouter)
 
-// Not found handle
-app.use((req, res) => {
-    res.status(404).json({
-        status: 'error',
-        message: 'Not found',
-    })
-})
+// Exception handle
+app.use(errorHandle)
+app.use(notfoundHandle)
 
 Mongoose.connect(
-    'mongodb://localhost:27017/typegoose',
+    process.env.MONGO_URL || 'mongodb://localhost:27017/test',
     { useNewUrlParser: true, useUnifiedTopology: true },
     (err) => {
         if (err) return logger.server('Connect fail')
