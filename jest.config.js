@@ -9,4 +9,8 @@ module.exports = {
     "transform": {
         "^.+\\.(ts|tsx)$": "ts-jest"
     },
+    "coveragePathIgnorePatterns": [
+        "/node_modules/"
+    ],
+    // testEnvironment: "node"
 }
