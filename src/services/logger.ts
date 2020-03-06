@@ -1,15 +1,11 @@
 import Debug from 'debug'
 
-const server = Debug('dev:server')
-const controller = Debug('dev:controller')
-const model = Debug('dev:model')
-const service = Debug('dev:service')
-
-const logger = {
-    server,
-    controller,
-    model,
-    service,
+module Log {
+    export const server = Debug('dev:server')
+    export const controller = Debug('dev:controller')
+    export const model = Debug('dev:model')
+    export const service = Debug('dev:service')
 }
 
-export default logger
+(global as any).Log = Log
+export default Log

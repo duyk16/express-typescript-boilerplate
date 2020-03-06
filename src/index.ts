@@ -1,9 +1,11 @@
 import Debug from 'debug'
 import Http from 'http'
 import Dotenv from 'dotenv'
+import { AddressInfo } from 'net'
 
 import app from './api/server'
-import { AddressInfo } from 'net'
+import './global'
+import './services/logger'
 
 const debug = Debug('dev:server');
 
